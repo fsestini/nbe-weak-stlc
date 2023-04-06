@@ -135,12 +135,17 @@ wk-cong {w1} {w2} {w3} {w4} (≈ʷin f) (≈ʷin g) =
             (trans (cong (flip wk-var w3) (f x))
             (trans (g (wk-var x w2)) (wk-var-comp w2 w4 x)))
 
+wkMagma : IsMagma _≈ʷ_ _·ʷ_
+wkMagma = record { isEquivalence = ≈ʷ-equiv ; ∙-cong = wk-cong }
+
+wkSemigroup : IsSemigroup _≈ʷ_ _·ʷ_
+wkSemigroup = record { isMagma = wkMagma ; assoc = wk-assoc }
+
 wkMonoid : Monoid _ _
 wkMonoid = record
   { Carrier = Wk ; _≈_ = _≈ʷ_ ; _∙_ = _·ʷ_ ; ε = Id
   ; isMonoid = record
-      { isSemigroup = record
-          { isEquivalence = ≈ʷ-equiv ; assoc = wk-assoc ; ∙-cong = wk-cong }
+      { isSemigroup = wkSemigroup
       ; identity = (λ w → ≈ʷin (λ x → sym (wk-var-comp Id w x))) ,
                    (λ w → (≈ʷin λ x → refl))
       }
