@@ -4,7 +4,7 @@ open import Data.Sum
 open import Data.Empty
 open import Data.Nat
 open import Data.Product renaming (_,_ to _,,_)
-open import Data.Maybe
+open import Data.Maybe hiding (ap)
 open import Syntax.Raw
 open import Explicit.Semantics.Domain
 open import Relation.Binary.PropositionalEquality
@@ -22,6 +22,7 @@ open SemTy
 infix 4 _∈_
 record _∈_ (a : D) (A : SemTy) : Set where
   no-eta-equality
+  pattern
   constructor in∈
   field
     wit : a ∈ₜ P A
